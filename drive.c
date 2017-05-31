@@ -14,8 +14,8 @@ int left, right;
 
 
 int main(int argc, char *argv[]){
-	left = 1;	//set the left wheel speed (encoder ticks)
-	right = 1; 	//set the right wheel speed (encoder ticks)
+	left = 10;	//set the left wheel speed (encoder ticks)
+	right = 10; 	//set the right wheel speed (encoder ticks)
 
 	kb_set_debug_level(2);
 	printf("libKhepera Template Program\r\n");
