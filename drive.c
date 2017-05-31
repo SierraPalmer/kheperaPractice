@@ -49,11 +49,11 @@ int main(int argc, char *argv[]){
 	}
 
 	printf("\nSet idle mode\n\n");
-	kh4_SetMode(kh4RegIdle,dsPic);
+	//kh4_SetMode(kh4RegIdle,dsPic);
 	printf("\nFinished setting idle mode\n\n");
 
 	printf("\nStop robot\n\n");
-	kh4_set_speed(0,0,dsPic); //stop robot
+	//kh4_set_speed(0,0,dsPic); //stop robot
 	printf("\nReady to Go!\n\n");
 
 	printf("\nSet speed profile \n\n");
