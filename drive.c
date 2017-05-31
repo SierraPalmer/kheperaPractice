@@ -31,9 +31,9 @@ int main(int argc, char *argv[]){
 	int kh4RegSpeedProfile = 2;
 
 	//kb_set_debug_level(2);
-	printf("libKhepera Template Program\n");
+	printf("libKhepera Template Program\n\n");
 
-	printf("Entering the rest of the code\n");
+	printf("Entering the rest of the code\n\n");
 	//initiate libkhepera and robot access
 	if (kh4_init(argc ,argv)!=0){
 		printf("\nERROR: could not initiate the libkhepera!\n\n");
@@ -48,24 +48,13 @@ int main(int argc, char *argv[]){
 		return -2;
 	}
 
-	printf("\nSet idle mode\n\n");
-	//kh4_SetMode(kh4RegIdle,dsPic);
-	printf("\nFinished setting idle mode\n\n");
-
-	printf("\nStop robot\n\n");
-	//kh4_set_speed(0,0,dsPic); //stop robot
-	printf("\nReady to Go!\n\n");
-
 	printf("\nSet speed profile \n\n");
 	kh4_SetSpeedProfile(accinc, accdiv, minspacc, minspdec, maxsp, dsPic);
-	printf("\nFinished setting speed profile\n\n");
 
 	printf("\nSet new mode\n\n");
 	kh4_SetMode(kh4RegSpeedProfile,dsPic);
-	printf("\nFinished setting new mode\n\n");
 
 	printf("\nStart driving forward\n\n");
 	kh4_set_speed(left,right,dsPic); //drive forward
-	printf("\nContinue driving forward\n\n");
 }
 
