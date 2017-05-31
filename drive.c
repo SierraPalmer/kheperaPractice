@@ -9,7 +9,7 @@
 #include <signal.h>
 
 #define RotSpeedL 120
-#define RotSpeedR -120
+#define RotSpeedR 120
 
 static knet_dev_t* dsPic;
 
@@ -31,7 +31,7 @@ int main(int argc, char *argv[]){
 	int kh4RegSpeedProfile = 2;
 
 	//kb_set_debug_level(2);
-	//printf("libKhepera Template Program\n");
+	printf("libKhepera Template Program\n");
 
 	printf("Entering the rest of the code\n");
 	//initiate libkhepera and robot access
