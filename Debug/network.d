@@ -1,1 +1,0 @@
-network.d: ../network.c

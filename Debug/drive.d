@@ -1,1 +1,0 @@
-drive.d: ../drive.c

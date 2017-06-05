@@ -83,7 +83,7 @@ int findSockAddr(int argc, char *argv[]){
 int my_recv(){
 	int bytesRemain = 4;
 	int size = 0;
-
+	printf("starting my_recv\n");
 	while (bytesRemain>0){
 			int num_recv = recv(sockfd, tempBuf, 1, 0);
 
@@ -96,20 +96,22 @@ int my_recv(){
 				size = size|(tempBuf[0]<<(bytesRemain*8));
 			}
 	}
+	printf("Size: %d\n", size);
 	return 0;
 }
 
 int my_read(){
+	printf("my_read\n");
 	int i = 0;
-	int bytesRecved = recv(sockfd, buf, 255, 0);
+	int bytesRecved = recv(sockfd, buf, 254, 0);
 	unsigned char recvTempBuf[255];
 
 	while(i<bytesRecved){
 		recvTempBuf[i] = buf[i];
 		i++;
 	}
-
-	printf("%s\n", recvTempBuf);
+	recvTempBuf[255] = '\0';
+	printf("message; %s\n", recvTempBuf);
 	return 0;
 }
 
