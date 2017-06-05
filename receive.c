@@ -140,7 +140,7 @@ int main(int argc, char *argv[]){
 				break;
 
 			unsigned char messageBuffer[size+1];
-			if(get_message(size, messageBuffer, size+1) <= 0)
+			if(get_message(size, messageBuffer, size+1) < 0)
 				break;
 			val = messageBuffer[0];
 
