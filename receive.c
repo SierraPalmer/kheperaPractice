@@ -20,9 +20,9 @@
 
 #include <arpa/inet.h>
 
-#define port "22222"
 #define MAXDATASIZE 100 //max number of bytes obtained at once
 
+char port[] = "22222";
 int sockfd;
 int arrayLen;
 struct addrinfo hints, *servinfo, *p;
@@ -42,7 +42,7 @@ void *get_in_addr(struct sockaddr *sa){
 int findSockAddr(int argc, char *argv[]){
 	int rv;
 
-	if (argc != 2){
+	if (argc != 3){
 		fprintf(stderr, "usage: client hostname\n");
 		exit(1);
 	}
@@ -51,7 +51,7 @@ int findSockAddr(int argc, char *argv[]){
 	hints.ai_family = AF_UNSPEC;
 	hints.ai_socktype = SOCK_STREAM;
 
-	if ((rv = getaddrinfo(argv[1], port, &hints, &servinfo)) !=0){
+	if ((rv = getaddrinfo(argv[1], argv[2], &hints, &servinfo)) !=0){
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
 		return -1;
 	}
