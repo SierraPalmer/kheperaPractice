@@ -4,16 +4,13 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../drive.c \
-../network.c 
+../receive.c 
 
 OBJS += \
-./drive.o \
-./network.o 
+./receive.o 
 
 C_DEPS += \
-./drive.d \
-./network.d 
+./receive.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

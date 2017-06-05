@@ -1,7 +1,7 @@
 /*
  * network.c
  *
- *  Created on: June 1, 2017
+ *  Created on: June 5, 2017
  *      Author: stpalmer
  */
 
@@ -23,10 +23,13 @@
 #define port "22222"
 #define MAXDATASIZE 100 //max number of bytes obtained at once
 
+unsigned char tempBuf[255];
+int sockfd;
+char buf[255];
+int arrayLen;
 struct addrinfo hints, *servinfo, *p;
 char s[INET6_ADDRSTRLEN];
 int sockfd, numbytes;
-char buf[MAXDATASIZE];
 
 void *get_in_addr(struct sockaddr *sa){
 	if (sa->sa_family == AF_INET){
@@ -63,7 +66,6 @@ int findSockAddr(int argc, char *argv[]){
 			perror("client: connect");
 			continue;
 		}
-
 		break;
 	}
 
@@ -74,33 +76,50 @@ int findSockAddr(int argc, char *argv[]){
 
 	inet_ntop(p->ai_family, get_in_addr((struct sockaddr *)p->ai_addr), s, sizeof s);
 	printf("client: connecting to %s\n", s);
-
 	freeaddrinfo(servinfo);
+	return sockfd;
+}
+
+int my_recv(){
+	int bytesRemain = 4;
+	int size = 0;
+
+	while (bytesRemain>0){
+			int num_recv = recv(sockfd, tempBuf, 1, 0);
+
+			if (num_recv == 0){
+				printf("ERROR: Disconnected\n");
+				return -1;//error
+			}
+			else{
+				bytesRemain--;	//
+				size = size|(tempBuf[0]<<(bytesRemain*8));
+			}
+	}
+	return 0;
+}
+
+int my_read(){
+	int i = 0;
+	int bytesRecved = recv(sockfd, buf, 255, 0);
+	unsigned char recvTempBuf[255];
+
+	while(i<bytesRecved){
+		recvTempBuf[i] = buf[i];
+		i++;
+	}
+
+	printf("%s\n", recvTempBuf);
+	return 0;
 }
 
 int main(int argc, char *argv[]){
-
 	if (findSockAddr(argc, argv) < 0){
-		printf("connection error\n");
-		return -1;
-	}
-	else {
-
-		while(1){
-			if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1){
-				perror("recv");
-				exit(1);
-			}
-
-			buf[numbytes] = '\0';
-
-			printf("client: received '%s'\n",buf);
+			printf("connection error\n");
+			return -1;
 		}
-		close(sockfd);
-	}
-
-	return 0;
-
+		else {
+			my_recv();
+			my_read();
+		}
 }
-
-
