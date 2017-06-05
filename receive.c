@@ -88,7 +88,7 @@ int my_recv(){
 			int num_recv = recv(sockfd, tempBuf, 1, 0);
 
 			if (num_recv == 0){
-				printf("ERROR: Disconnected\n");
+				printf("ERROR: Disconnected: %d\n", bytesRemain);
 				return -1;//error
 			}
 			else{
