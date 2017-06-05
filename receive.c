@@ -97,20 +97,25 @@ int my_recv(){
 			}
 	}
 	printf("Size: %d\n", size);
-	return 0;
+	return size;
 }
 
-int my_read(){
+int my_read(int size){
 	printf("my_read\n");
-	int i = 0;
-	int bytesRecved = recv(sockfd, buf, 254, 0);
+	int j = 0;
 	unsigned char recvTempBuf[255];
 
-	while(i<bytesRecved){
-		recvTempBuf[i] = buf[i];
-		i++;
+	while(j< size){
+		int i = 0;
+		int bytesRecved = recv(sockfd, buf, 254, 0);
+
+		while(i<bytesRecved){
+			recvTempBuf[j] = buf[i];
+			i++;
+			j++;
+		}
 	}
-	recvTempBuf[255] = '\0';
+	recvTempBuf[j+1] = '\0';
 	printf("message; %s\n", recvTempBuf);
 	return 0;
 }
@@ -121,7 +126,7 @@ int main(int argc, char *argv[]){
 			return -1;
 		}
 		else {
-			my_recv();
-			my_read();
+			int size = my_recv();
+			my_read(size);
 		}
 }
