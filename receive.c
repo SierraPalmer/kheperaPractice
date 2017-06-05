@@ -110,6 +110,8 @@ int get_message(int size, unsigned char buffer[], int buffSize){
 		int i = 0;
 		int bytesRecved = recv(sockfd, recvTempBuf, buffSize-1, 0);
 
+		if(bytesRecved <= 0)
+			return bytesRecved;
 		while(i<bytesRecved){
 			buffer[j] = recvTempBuf[i];
 			i++;
@@ -132,27 +134,31 @@ int main(int argc, char *argv[]){
 			return -1;
 	}
 	else {
-		int size = get_message_size();
-		unsigned char messageBuffer[size];
-		get_message(size, messageBuffer, size);
-		while(j == 5){
-				switch(val){
-					case 0:
-						printf("Requesting name\n");
-						break;
-					case 1:
-						printf("Disconnection\n");
-						break;
-					case 2:
-						printf("Right wheel speed\n");
-						break;
-					case 3:
-						printf("Left wheel speed\n");
-						break;
-				}
+		while(1){
+			int size = get_message_size();
+			if(size <= 0)
+				break;
+
+			unsigned char messageBuffer[size];
+			if(get_message(size, messageBuffer, size) <= 0)
+				break;
+			val = messageBuffer[0];
+
+			switch(val){
+				case 0:
+					printf("Requesting name\n");
+					break;
+				case 1:
+					printf("Disconnection\n");
+					break;
+				case 2:
+					printf("Right wheel speed\n");
+					break;
+				case 3:
+					printf("Left wheel speed\n");
+					break;
+			}
 		}
-
-
 	}
 	return 0;
 }
