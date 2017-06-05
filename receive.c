@@ -23,13 +23,13 @@
 #define port "22222"
 #define MAXDATASIZE 100 //max number of bytes obtained at once
 
-unsigned char tempBuf[255];
 int sockfd;
-char buf[255];
 int arrayLen;
 struct addrinfo hints, *servinfo, *p;
 char s[INET6_ADDRSTRLEN];
 int sockfd, numbytes;
+int size;
+int j = 0;
 
 void *get_in_addr(struct sockaddr *sa){
 	if (sa->sa_family == AF_INET){
@@ -80,7 +80,9 @@ int findSockAddr(int argc, char *argv[]){
 	return sockfd;
 }
 
-int my_recv(){
+int get_message_size(){
+	unsigned char tempBuf[255];
+
 	int bytesRemain = 4;
 	int size = 0;
 	printf("starting my_recv\n");
@@ -100,33 +102,57 @@ int my_recv(){
 	return size;
 }
 
-int my_read(int size){
+int get_message(int size, unsigned char buffer[], int buffSize){
 	printf("my_read\n");
-	int j = 0;
-	unsigned char recvTempBuf[255];
+	unsigned char recvTempBuf[buffSize];
 
 	while(j< size){
 		int i = 0;
-		int bytesRecved = recv(sockfd, buf, 254, 0);
+		int bytesRecved = recv(sockfd, recvTempBuf, buffSize-1, 0);
 
 		while(i<bytesRecved){
-			recvTempBuf[j] = buf[i];
+			buffer[j] = recvTempBuf[i];
 			i++;
 			j++;
 		}
 	}
-	recvTempBuf[j+1] = '\0';
-	printf("message; %s\n", recvTempBuf);
+	buffer[j+1] = '\0';
+	printf("message: %s\n", buffer);
 	return 0;
 }
 
+
+
 int main(int argc, char *argv[]){
+
+	char val = 0;
+
 	if (findSockAddr(argc, argv) < 0){
 			printf("connection error\n");
 			return -1;
+	}
+	else {
+		int size = get_message_size();
+		unsigned char messageBuffer[size];
+		get_message(size, messageBuffer, size);
+		while(j == 5){
+				switch(val){
+					case 0:
+						printf("Requesting name\n");
+						break;
+					case 1:
+						printf("Disconnection\n");
+						break;
+					case 2:
+						printf("Right wheel speed\n");
+						break;
+					case 3:
+						printf("Left wheel speed\n");
+						break;
+				}
 		}
-		else {
-			int size = my_recv();
-			my_read(size);
-		}
+
+
+	}
+	return 0;
 }
